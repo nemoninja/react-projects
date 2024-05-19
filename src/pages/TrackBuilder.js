@@ -3,21 +3,72 @@ import "../styles/MainPage.module.css";
 import paths from "../paths";
 import { Link } from "gatsby";
 
-const TrackBuilderPage = () => {
-  const numRows = 4;
-  const numCols = 5;
-  const cellEdge = "50px"; // 50px by 50pxs
+const numRows = 4;
+const numCols = 5;
+const cellEdge = "50px"; // 50px by 50pxs
+const cellKeyChars = {
+  prefix: "cell",
+  delimiter: "-",
+};
 
+const neighbours = [
+  ["n", -1, 0],
+  ["s", 0, 1],
+  ["e", 0, 1],
+  ["w", 0, -1],
+];
+
+const TrackBuilderPage = () => {
   const [cellStates, setCellStates] = useState({});
 
   function handleCellClick(e) {
+    const connections = getConnectedNodes(e.target.id);
     setCellStates({
       ...cellStates,
       [e.target.id]: {
         ...cellStates[e.target.id],
         isTrack: !cellStates[e.target.id]?.isTrack,
+        connections: connections,
       },
     });
+    console.log("e.target.id ", e.target.id);
+    console.log("isTrack ", cellStates[e.target.id]?.isTrack);
+    console.log("connections ", connections);
+  }
+
+  function createCellKey(rowIndex, colIndex) {
+    return cellKeyChars.prefix.concat(
+      cellKeyChars.delimiter,
+      rowIndex,
+      cellKeyChars.delimiter,
+      colIndex
+    );
+  }
+
+  function getConnectedNodes(cellKey) {
+    const splitKey = cellKey.split(cellKeyChars.delimiter);
+    const rowIndex = parseInt(splitKey[1]);
+    const colIndex = parseInt(splitKey[2]);
+
+    const connectedNodes = [];
+
+    neighbours.forEach((neighbor) => {
+      const [direction, rowDiff, colDiff] = neighbor;
+
+      console.log(rowDiff);
+      console.log(rowIndex);
+
+      const neighbourKey = createCellKey(
+        rowIndex + rowDiff,
+        colIndex + colDiff
+      );
+      console.log(neighbourKey);
+      if (cellStates[neighbourKey]?.isTrack) {
+        connectedNodes.push(direction);
+      }
+    });
+
+    return connectedNodes;
   }
 
   const CreateGrid = () => {
@@ -46,7 +97,7 @@ const TrackBuilderPage = () => {
   };
 
   const CreateCell = (rowIndex, colIndex) => {
-    const cellKey = `cell-${rowIndex}-${colIndex}`;
+    const cellKey = createCellKey(rowIndex, colIndex);
     const cellFill = cellStates[cellKey]?.isTrack ? "red" : "white";
     return (
       <div
@@ -64,7 +115,7 @@ const TrackBuilderPage = () => {
           alignItems: "center",
         }}
       >
-        {cellKey}
+        {cellStates[cellKey]?.connections ?? ""}
       </div>
     );
   };

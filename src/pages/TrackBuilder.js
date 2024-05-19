@@ -1,5 +1,7 @@
 import * as React from "react";
 import "../styles/MainPage.module.css";
+import paths from "../paths";
+import { Link } from "gatsby";
 
 const TrackSandbox = () => {
   return <div>a cell</div>;
@@ -14,6 +16,10 @@ const TrackBuilderPage = () => {
         <p>This is sandbox for building things.</p>
         <br />
         {TrackSandbox}
+      </div>
+      <div>
+        <br />
+        <Link to={paths.Home}>Go home</Link>.
       </div>
     </main>
   );

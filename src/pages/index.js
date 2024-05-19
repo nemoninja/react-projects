@@ -1,5 +1,7 @@
 import * as React from "react";
 import "../styles/MainPage.module.css";
+import paths from "../paths";
+import { Link } from "gatsby";
 
 const IndexPage = () => {
   return (
@@ -9,6 +11,12 @@ const IndexPage = () => {
         <br />
         <span>— smell ya later, gramps</span>
       </h1>
+      <div>
+        <p>
+          Let's build some train tracks{" "}
+          <Link to={paths.TrackBuilder}>here</Link>!
+        </p>
+      </div>
     </main>
   );
 };

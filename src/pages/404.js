@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../styles/MainPage.module.css";
+import paths from "../paths";
 import { Link } from "gatsby";
 
 const NotFoundPage = () => {
@@ -13,7 +14,7 @@ const NotFoundPage = () => {
       <h1>Page not found</h1>
       <p className>
         {msg}
-        <Link to="/">Go home</Link>.
+        <Link to={paths.Home}>Go home</Link>.
       </p>
     </main>
   );

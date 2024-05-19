@@ -3,7 +3,7 @@
  */
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://nemoninjasreactprojects.netlify.app/`,
+    siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [],
 };

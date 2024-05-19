@@ -7,7 +7,7 @@ const IndexPage = () => {
       <h1>
         Hello n00bs
         <br />
-        <span>— smell ya later</span>
+        <span>— smell ya later, gramps</span>
       </h1>
     </main>
   );

@@ -1,0 +1,21 @@
+/* MainPage.module.css */
+
+:global main {
+  color: #232129;
+  padding: 96;
+  font-family: "-apple-system, Roboto, sans-serif, serif";
+}
+
+:global h1 {
+  margin-top: 0;
+  margin-bottom: 64;
+  max-width: 320;
+}
+
+:global span {
+  color: #db7a12;
+}
+
+:global p {
+  margin-bottom: 48;
+}

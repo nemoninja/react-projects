@@ -16,6 +16,10 @@ const IndexPage = () => {
           Let's build some train tracks{" "}
           <Link to={paths.TrackBuilder}>here</Link>!
         </p>
+        <br />
+        <p>
+          Let's stop some watches <Link to={paths.Stopwatch}>here</Link>!
+        </p>
       </div>
     </main>
   );

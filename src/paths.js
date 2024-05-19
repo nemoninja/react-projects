@@ -1,5 +1,6 @@
 const paths = {
   Home: "/",
+  Stopwatch: "/Stopwatch",
   TrackBuilder: "/TrackBuilder",
 };
 

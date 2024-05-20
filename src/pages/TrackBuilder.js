@@ -11,11 +11,17 @@ const cellKeyChars = {
   delimiter: "-",
 };
 
+/*
+[0] : direction of neighbour relative to target cell 
+[1] : direction or target cell relative to neighbour cell 
+[2] : row index from target cell
+[3] : col index from target cell
+ */
 const neighbours = [
-  ["n", -1, 0],
-  ["s", 0, 1],
-  ["e", 0, 1],
-  ["w", 0, -1],
+  ["n", "s", -1, 0],
+  ["s", "n", 1, 0],
+  ["e", "w", 0, 1],
+  ["w", "e", 0, -1],
 ];
 
 const TrackBuilderPage = () => {
@@ -50,22 +56,37 @@ const TrackBuilderPage = () => {
     const rowIndex = parseInt(splitKey[1]);
     const colIndex = parseInt(splitKey[2]);
 
+    const cellIsTrack = cellStates[cellKey]?.isTrack ?? false;
     const connectedNodes = [];
 
     neighbours.forEach((neighbor) => {
-      const [direction, rowDiff, colDiff] = neighbor;
-
-      console.log(rowDiff);
-      console.log(rowIndex);
-
+      const [direction, neighboursDirection, rowDiff, colDiff] = neighbor;
       const neighbourKey = createCellKey(
         rowIndex + rowDiff,
         colIndex + colDiff
       );
-      console.log(neighbourKey);
-      if (cellStates[neighbourKey]?.isTrack) {
-        connectedNodes.push(direction);
+      const neighboursConnections = cellStates[neighbourKey]?.connections ?? [];
+      const neighbourIsTrack = cellStates[neighbourKey]?.isTrack ?? false;
+
+      if (cellIsTrack) {
+        // if currently true, we are removing the track, i.e. unset connections
+        neighboursConnections.pop(neighboursDirection);
+      } else {
+        // if currently false, we are adding a track, i.e. set connections
+        if (neighbourIsTrack) {
+          connectedNodes.push(direction);
+          neighboursConnections.push(neighboursDirection);
+        }
       }
+
+      // set neighbour connections
+      setCellStates({
+        ...cellStates,
+        [neighbourKey]: {
+          ...cellStates[neighbourKey],
+          connections: neighboursConnections,
+        },
+      });
     });
 
     return connectedNodes;

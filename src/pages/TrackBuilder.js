@@ -57,7 +57,7 @@ const TrackBuilderPage = () => {
     const colIndex = parseInt(splitKey[2]);
 
     const cellIsTrack = cellStates[cellKey]?.isTrack ?? false;
-    const connectedNodes = [];
+    const cellConnections = {};
 
     neighbours.forEach((neighbor) => {
       const [direction, neighboursDirection, rowDiff, colDiff] = neighbor;
@@ -65,17 +65,17 @@ const TrackBuilderPage = () => {
         rowIndex + rowDiff,
         colIndex + colDiff
       );
-      const neighboursConnections = cellStates[neighbourKey]?.connections ?? [];
+      const neighboursConnections = cellStates[neighbourKey]?.connections ?? {};
       const neighbourIsTrack = cellStates[neighbourKey]?.isTrack ?? false;
 
       if (cellIsTrack) {
         // if currently true, we are removing the track, i.e. unset connections
-        neighboursConnections.pop(neighboursDirection);
+        neighboursConnections[neighboursDirection] = false;
       } else {
         // if currently false, we are adding a track, i.e. set connections
         if (neighbourIsTrack) {
-          connectedNodes.push(direction);
-          neighboursConnections.push(neighboursDirection);
+          cellConnections[direction] = true;
+          neighboursConnections[neighboursDirection] = true;
         }
       }
 
@@ -89,7 +89,7 @@ const TrackBuilderPage = () => {
       });
     });
 
-    return connectedNodes;
+    return cellConnections;
   }
 
   const CreateGrid = () => {
@@ -120,6 +120,15 @@ const TrackBuilderPage = () => {
   const CreateCell = (rowIndex, colIndex) => {
     const cellKey = createCellKey(rowIndex, colIndex);
     const cellFill = cellStates[cellKey]?.isTrack ? "red" : "white";
+
+    let connectionsAsString = "";
+    const connections = cellStates[cellKey]?.connections ?? {};
+    Object.keys(connections).forEach((key) => {
+      if (connections[key]) {
+        connectionsAsString += key;
+      }
+    });
+
     return (
       <div
         className={cellKey}
@@ -136,7 +145,7 @@ const TrackBuilderPage = () => {
           alignItems: "center",
         }}
       >
-        {cellStates[cellKey]?.connections ?? ""}
+        {connectionsAsString}
       </div>
     );
   };

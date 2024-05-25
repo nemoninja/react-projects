@@ -6,6 +6,19 @@ import { Link } from "gatsby";
 let intervalId = 0;
 let pauseButtonLabel = "Start";
 
+function timeUnitToString(unit, value, defaultVal = "") {
+  return value === 0 ? defaultVal : value + unit + " ";
+}
+
+function timeToString(timestamp) {
+  const date = new Date(timestamp);
+  const hh = timeUnitToString("h", date.getUTCHours());
+  const mm = timeUnitToString("m", date.getUTCMinutes());
+  const ss = timeUnitToString("s", date.getSeconds(), "0s ");
+  const ms = String(parseInt(date.getMilliseconds() / 10)).padStart(2, "0");
+  return hh + mm + ss + ms;
+}
+
 const StopwatchPage = () => {
   const [isRunning, setIsRunning] = useState(false);
   // const [startTime, setStartTime] = useState(Date.now()); // time to start counting from when resumed
@@ -15,7 +28,7 @@ const StopwatchPage = () => {
 
   useEffect(() => {
     setStopwatchTime(() => cachedTime + localDelta);
-  }, [localDelta]);
+  }, [cachedTime, localDelta]);
 
   function handlePause() {
     // based on current state, do this next
@@ -46,15 +59,6 @@ const StopwatchPage = () => {
     pauseButtonLabel = "Start";
   }
 
-  function timeToString(timestamp) {
-    const date = new Date(timestamp);
-    const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = date.getSeconds();
-    const ms = date.getMilliseconds();
-    return hh + ":" + mm + ":" + ss + ":" + ms;
-  }
-
   console.log("localDelta ", localDelta);
   console.log("stopwatchTime ", stopwatchTime);
 
@@ -75,6 +79,8 @@ const StopwatchPage = () => {
         </button>
       </div>
       <div>
+        <br />
+        <br />
         <br />
         <Link to={paths.Home}>Go home</Link>.
       </div>

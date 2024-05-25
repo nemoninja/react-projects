@@ -3,58 +3,69 @@ import "../styles/MainPage.module.css";
 import paths from "../paths";
 import { Link } from "gatsby";
 
+let intervalId = 0;
 let pauseButtonLabel = "Start";
 
 const StopwatchPage = () => {
-  const [pause, setPause] = useState(true);
-  const [startTime, setStartTime] = useState(Date.now());
-  const [localDifference, setLocalDifference] = useState(0);
-  const [totalDifference, setTotalDifference] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  // const [startTime, setStartTime] = useState(Date.now()); // time to start counting from when resumed
+  const [localDelta, setLocalDelta] = useState(0); // time difference between each resume-pause
+  const [cachedTime, setCachedTime] = useState(0); // the last paused time delta on the stopwatch
+  const [stopwatchTime, setStopwatchTime] = useState(0); // the current display on the stopwatch
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!pause) {
-        setLocalDifference(Date.now() - startTime);
-        setTotalDifference(totalDifference + localDifference);
-      }
-    }, 100);
-  });
+    setStopwatchTime(() => cachedTime + localDelta);
+  }, [localDelta]);
 
   function handlePause() {
-    if (!pause) {
-      setStartTime(Date.now());
-      setLocalDifference(0);
+    // based on current state, do this next
+    if (isRunning) {
+      pauseButtonLabel = "Resume";
+
+      clearInterval(intervalId);
+      setCachedTime(stopwatchTime);
+      setLocalDelta(0);
+    } else {
       pauseButtonLabel = "Pause";
-    } else pauseButtonLabel = "Resume";
-    setPause(!pause);
+
+      let startTime = Date.now();
+
+      intervalId = setInterval(() => {
+        setLocalDelta(Date.now() - startTime);
+      }, 100);
+    }
+    setIsRunning(!isRunning);
   }
 
   function handleClear() {
-    setPause(true);
-    setLocalDifference(0);
-    setTotalDifference(0);
-    setStartTime(Date.now());
+    clearInterval(intervalId);
+    setIsRunning(false);
+    setLocalDelta(0);
+    setCachedTime(0);
+    setStopwatchTime(0);
     pauseButtonLabel = "Start";
   }
 
   function timeToString(timestamp) {
-    // const date = new Date(timestamp);
-    // const hh = date.getUTCHours();
-    // const mm = date.getUTCMinutes();
-    // const ss = date.getSeconds();
-    // return hh + ":" + mm + ":" + ss;
-
-    return timestamp / 1000;
+    const date = new Date(timestamp);
+    const hh = date.getUTCHours();
+    const mm = date.getUTCMinutes();
+    const ss = date.getSeconds();
+    const ms = date.getMilliseconds();
+    return hh + ":" + mm + ":" + ss + ":" + ms;
   }
+
+  console.log("localDelta ", localDelta);
+  console.log("stopwatchTime ", stopwatchTime);
 
   return (
     <main>
       <h1>Stopwatch</h1>
       <div className="container">
         <p>This is a stopwatch.</p>
-        <p>{totalDifference}</p>
-        <p>{timeToString(totalDifference)}</p>
-        <p>{startTime}</p>
+        <p>{timeToString(stopwatchTime)}</p>
+        <p>Local delta: {localDelta}</p>
+        <p>isRunning: {isRunning ? "true" : "false"}</p>
         <br />
         <button onClick={handlePause} style={{ width: 60 }}>
           {pauseButtonLabel}

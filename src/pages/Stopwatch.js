@@ -21,9 +21,8 @@ function timeToString(timestamp) {
 
 const StopwatchPage = () => {
   const [isRunning, setIsRunning] = useState(false);
-  // const [startTime, setStartTime] = useState(Date.now()); // time to start counting from when resumed
-  const [localDelta, setLocalDelta] = useState(0); // time difference between each resume-pause
-  const [cachedTime, setCachedTime] = useState(0); // the last paused time delta on the stopwatch
+  const [localDelta, setLocalDelta] = useState(0); // time difference between each resume-pause interval
+  const [cachedTime, setCachedTime] = useState(0); // cache the last paused time delta on the stopwatch
   const [stopwatchTime, setStopwatchTime] = useState(0); // the current display on the stopwatch
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const StopwatchPage = () => {
   }, [cachedTime, localDelta]);
 
   function handlePause() {
-    // based on current state, do this next
     if (isRunning) {
       pauseButtonLabel = "Resume";
 
@@ -42,7 +40,6 @@ const StopwatchPage = () => {
       pauseButtonLabel = "Pause";
 
       let startTime = Date.now();
-
       intervalId = setInterval(() => {
         setLocalDelta(Date.now() - startTime);
       }, 100);
@@ -59,16 +56,15 @@ const StopwatchPage = () => {
     pauseButtonLabel = "Start";
   }
 
-  console.log("localDelta ", localDelta);
-  console.log("stopwatchTime ", stopwatchTime);
-
   return (
     <main>
       <h1>Stopwatch</h1>
       <div className="container">
         <p>This is a stopwatch.</p>
         <p>{timeToString(stopwatchTime)}</p>
-        <p>Local delta: {localDelta}</p>
+        <br />
+        <p>Local delta: {timeToString(localDelta)}</p>
+        <p>Cached time: {timeToString(cachedTime)}</p>
         <p>isRunning: {isRunning ? "true" : "false"}</p>
         <br />
         <button onClick={handlePause} style={{ width: 60 }}>

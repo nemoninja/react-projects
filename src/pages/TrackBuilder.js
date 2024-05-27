@@ -24,6 +24,15 @@ const neighbours = [
   ["w", "e", 0, -1],
 ];
 
+function createCellKey(rowIndex, colIndex) {
+  return cellKeyChars.prefix.concat(
+    cellKeyChars.delimiter,
+    rowIndex,
+    cellKeyChars.delimiter,
+    colIndex
+  );
+}
+
 const TrackBuilderPage = () => {
   const [cellStates, setCellStates] = useState({});
 
@@ -42,15 +51,6 @@ const TrackBuilderPage = () => {
     console.log("connections ", connections);
   }
 
-  function createCellKey(rowIndex, colIndex) {
-    return cellKeyChars.prefix.concat(
-      cellKeyChars.delimiter,
-      rowIndex,
-      cellKeyChars.delimiter,
-      colIndex
-    );
-  }
-
   function getConnectedNodes(cellKey) {
     const splitKey = cellKey.split(cellKeyChars.delimiter);
     const rowIndex = parseInt(splitKey[1]);
@@ -59,8 +59,8 @@ const TrackBuilderPage = () => {
     const cellIsTrack = cellStates[cellKey]?.isTrack ?? false;
     const cellConnections = {};
 
-    neighbours.forEach((neighbor) => {
-      const [direction, neighboursDirection, rowDiff, colDiff] = neighbor;
+    neighbours.forEach((neighbour) => {
+      const [direction, neighboursDirection, rowDiff, colDiff] = neighbour;
       const neighbourKey = createCellKey(
         rowIndex + rowDiff,
         colIndex + colDiff
@@ -102,7 +102,6 @@ const TrackBuilderPage = () => {
 
     return (
       <div
-        className="container"
         style={{
           display: "grid",
           gridGap: 1,
@@ -131,10 +130,8 @@ const TrackBuilderPage = () => {
 
     return (
       <div
-        className={cellKey}
         onClick={handleCellClick}
         id={cellKey}
-        key={cellKey}
         style={{
           height: cellEdge,
           width: cellEdge,
@@ -153,7 +150,7 @@ const TrackBuilderPage = () => {
   return (
     <main>
       <h1>Track Builder</h1>
-      <div className="container">
+      <div>
         <p>Let's build some train tracks!</p>
         <p>This is sandbox for building things.</p>
         <br />

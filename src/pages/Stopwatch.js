@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/MainPage.module.css";
+import "../styles/StopwatchPage.module.css";
 import paths from "../paths";
 import { Link } from "gatsby";
 
@@ -67,12 +68,8 @@ const StopwatchPage = () => {
         <p>Cached time: {timeToString(cachedTime)}</p>
         <p>isRunning: {isRunning ? "true" : "false"}</p>
         <br />
-        <button onClick={handlePause} style={{ width: 60 }}>
-          {pauseButtonLabel}
-        </button>
-        <button onClick={handleClear} style={{ width: 60 }}>
-          Clear
-        </button>
+        <button onClick={handlePause}>{pauseButtonLabel}</button>
+        <button onClick={handleClear}>Clear</button>
       </div>
       <div>
         <br />

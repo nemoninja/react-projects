@@ -1,0 +1,17 @@
+/* Banner.module.css */
+
+.banner {
+  padding: 30px;
+  text-align: center;
+  background-color: #dbc29c;
+  /* background-image: url("../images/nina.webp"); */
+  font-size: 20px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.bannerLink {
+  display: "block";
+  color: #9c6006;
+  text-decoration: none;
+}

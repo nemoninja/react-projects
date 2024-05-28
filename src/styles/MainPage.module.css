@@ -1,7 +1,6 @@
 /* MainPage.module.css */
 
 :global main {
-  color: #232129;
   padding: 96;
   font-family: "-apple-system, Roboto, sans-serif, serif";
 }
@@ -12,10 +11,20 @@
   max-width: 320;
 }
 
-:global span {
-  color: #db7a12;
-}
-
 :global p {
   margin-bottom: 48;
+}
+
+.mainBody {
+  padding: 30px;
+  min-height: 100vh;
+  text-align: center;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.6)
+    ),
+    url("../images/nina.webp");
+  background-position: center;
 }

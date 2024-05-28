@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "../styles/MainPage.module.css";
+import { MainBody } from "../components/MainBody";
 import "../styles/StopwatchPage.module.css";
-import paths from "../paths";
-import { Link } from "gatsby";
 
 let intervalId = 0;
 let pauseButtonLabel = "Start";
@@ -59,24 +57,21 @@ const StopwatchPage = () => {
 
   return (
     <main>
-      <h1>Stopwatch</h1>
-      <div className="container">
+      <MainBody>
+        <h1>Stopwatch</h1>
         <p>This is a stopwatch.</p>
-        <p>{timeToString(stopwatchTime)}</p>
-        <br />
-        <p>Local delta: {timeToString(localDelta)}</p>
-        <p>Cached time: {timeToString(cachedTime)}</p>
-        <p>isRunning: {isRunning ? "true" : "false"}</p>
-        <br />
-        <button onClick={handlePause}>{pauseButtonLabel}</button>
-        <button onClick={handleClear}>Clear</button>
-      </div>
-      <div>
-        <br />
-        <br />
-        <br />
-        <Link to={paths.Home}>Go home</Link>.
-      </div>
+        <div>
+          <br />
+          <p>{timeToString(stopwatchTime)}</p>
+          <br />
+          <p>Local delta: {timeToString(localDelta)}</p>
+          <p>Cached time: {timeToString(cachedTime)}</p>
+          <p>isRunning: {isRunning ? "true" : "false"}</p>
+          <br />
+          <button onClick={handlePause}>{pauseButtonLabel}</button>
+          <button onClick={handleClear}>Clear</button>
+        </div>
+      </MainBody>
     </main>
   );
 };

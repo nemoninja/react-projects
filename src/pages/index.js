@@ -1,14 +1,12 @@
 import * as React from "react";
-import * as styles from "../styles/MainPage.module.css";
-import { Banner } from "../components/Banner";
+import { MainBody } from "../components/MainBody";
 import paths from "../paths";
 import { Link } from "gatsby";
 
 const IndexPage = () => {
   return (
     <main>
-      <Banner />
-      <div className={styles.mainBody}>
+      <MainBody>
         <h1>Hello n00bs</h1>
         <div>
           <p>
@@ -19,7 +17,7 @@ const IndexPage = () => {
             Let's stop some watches <Link to={paths.Stopwatch}>here</Link>!
           </p>
         </div>
-      </div>
+      </MainBody>
     </main>
   );
 };

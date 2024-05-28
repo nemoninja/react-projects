@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import "../styles/MainPage.module.css";
-import paths from "../paths";
-import { Link } from "gatsby";
+import { MainBody } from "../components/MainBody";
 
 const numRows = 4;
 const numCols = 5;
@@ -109,6 +107,8 @@ const TrackBuilderPage = () => {
           gridTemplateRows: `repeat(${numRows}, 1fr)`,
           width: cellEdge,
           border: "solid 2px black",
+          justifyContent: "center",
+          margin: "auto",
         }}
       >
         {Cells}
@@ -149,17 +149,14 @@ const TrackBuilderPage = () => {
 
   return (
     <main>
-      <h1>Track Builder</h1>
-      <div>
-        <p>Let's build some train tracks!</p>
-        <p>This is sandbox for building things.</p>
-        <br />
-        {CreateGrid()}
-      </div>
-      <div>
-        <br />
-        <Link to={paths.Home}>Go home</Link>.
-      </div>
+      <MainBody>
+        <h1>Track Builder</h1>
+        <p>This is sandbox for building tracks.</p>
+        <div>
+          <br />
+          {CreateGrid()}
+        </div>
+      </MainBody>
     </main>
   );
 };

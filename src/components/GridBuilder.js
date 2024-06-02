@@ -41,14 +41,13 @@ export function GridBuilder({ numRows, numCols, cellStates, onClickFunction }) {
         onClick={onClickFunction}
         id={cellKey}
         style={{
-          height: cellEdge,
-          width: cellEdge,
-          border: "solid 2px black",
-          // border: "none",
-          backgroundColor: cellFill,
-          margin: -2,
-          display: "flex",
           alignItems: "center",
+          backgroundColor: cellFill,
+          border: "solid 2px black",
+          display: "flex",
+          height: cellEdge,
+          margin: -2,
+          width: cellEdge,
         }}
       >
         {connectionsAsString}
@@ -70,9 +69,9 @@ export function GridBuilder({ numRows, numCols, cellStates, onClickFunction }) {
         gridGap: 1,
         gridTemplateColumns: `repeat(${numCols}, 1fr)`,
         gridTemplateRows: `repeat(${numRows}, 1fr)`,
-        width: cellEdge,
         justifyContent: "center",
         margin: "auto",
+        width: cellEdge,
       }}
     >
       {Cells}

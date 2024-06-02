@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { MainBody } from "../components/MainBody";
+import {
+  cellKeyChars,
+  createCellKey,
+  GridBuilder,
+} from "../components/GridBuilder";
 
-const numRows = 4;
-const numCols = 5;
-const cellEdge = "50px"; // 50px by 50pxs
-const cellKeyChars = {
-  prefix: "cell",
-  delimiter: "-",
-};
+const numRows = 10;
+const numCols = 20;
 
 /*
 [0] : direction of neighbour relative to target cell 
@@ -22,20 +22,12 @@ const neighbours = [
   ["w", "e", 0, -1],
 ];
 
-function createCellKey(rowIndex, colIndex) {
-  return cellKeyChars.prefix.concat(
-    cellKeyChars.delimiter,
-    rowIndex,
-    cellKeyChars.delimiter,
-    colIndex
-  );
-}
-
 const TrackBuilderPage = () => {
   const [cellStates, setCellStates] = useState({});
 
   function handleCellClick(e) {
     const connections = getConnectedNodes(e.target.id);
+
     setCellStates({
       ...cellStates,
       [e.target.id]: {
@@ -90,63 +82,6 @@ const TrackBuilderPage = () => {
     return cellConnections;
   }
 
-  const CreateGrid = () => {
-    const Cells = [];
-    for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < numCols; j++) {
-        Cells.push(CreateCell(i, j));
-      }
-    }
-
-    return (
-      <div
-        style={{
-          display: "grid",
-          gridGap: 1,
-          gridTemplateColumns: `repeat(${numCols}, 1fr)`,
-          gridTemplateRows: `repeat(${numRows}, 1fr)`,
-          width: cellEdge,
-          border: "solid 2px black",
-          justifyContent: "center",
-          margin: "auto",
-        }}
-      >
-        {Cells}
-      </div>
-    );
-  };
-
-  const CreateCell = (rowIndex, colIndex) => {
-    const cellKey = createCellKey(rowIndex, colIndex);
-    const cellFill = cellStates[cellKey]?.isTrack ? "red" : "white";
-
-    let connectionsAsString = "";
-    const connections = cellStates[cellKey]?.connections ?? {};
-    Object.keys(connections).forEach((key) => {
-      if (connections[key]) {
-        connectionsAsString += key;
-      }
-    });
-
-    return (
-      <div
-        onClick={handleCellClick}
-        id={cellKey}
-        style={{
-          height: cellEdge,
-          width: cellEdge,
-          border: "solid 2px black",
-          backgroundColor: cellFill,
-          margin: -2,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        {connectionsAsString}
-      </div>
-    );
-  };
-
   return (
     <main>
       <MainBody>
@@ -154,7 +89,12 @@ const TrackBuilderPage = () => {
         <p>This is sandbox for building tracks.</p>
         <div>
           <br />
-          {CreateGrid()}
+          <GridBuilder
+            numRows={numRows}
+            numCols={numCols}
+            cellStates={cellStates}
+            onClickFunction={handleCellClick}
+          ></GridBuilder>
         </div>
       </MainBody>
     </main>

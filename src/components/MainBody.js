@@ -1,6 +1,6 @@
 import React from "react";
 import * as styles from "../styles/MainPage.module.css";
-import { Banner } from "../components/Banner";
+import { Banner } from "./Banner";
 
 export function MainBody(props) {
   return (

@@ -2,7 +2,7 @@ import React from "react";
 
 const cellEdge = "50px"; // 50px by 50pxs
 
-export const cellKeyChars = {
+const cellKeyChars = {
   prefix: "cell",
   delimiter: "-",
 };
@@ -16,10 +16,17 @@ export function createCellKey(rowIndex, colIndex) {
   );
 }
 
+export function getCellIndex(cellKey) {
+  const splitKey = cellKey.split(cellKeyChars.delimiter);
+  const rowIndex = parseInt(splitKey[1]);
+  const colIndex = parseInt(splitKey[2]);
+  return [rowIndex, colIndex];
+}
+
 export function GridBuilder({ numRows, numCols, cellStates, onClickFunction }) {
   const CreateCell = (rowIndex, colIndex) => {
     const cellKey = createCellKey(rowIndex, colIndex);
-    const cellFill = cellStates[cellKey]?.isTrack ? "red" : "white";
+    const cellFill = cellStates[cellKey]?.isActive ? "red" : "white";
 
     let connectionsAsString = "";
     const connections = cellStates[cellKey]?.connections ?? {};

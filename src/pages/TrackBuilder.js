@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MainBody } from "../components/MainBody";
 import {
-  cellKeyChars,
+  getCellIndex,
   createCellKey,
   GridBuilder,
 } from "../components/GridBuilder";
@@ -10,8 +10,8 @@ const numRows = 10;
 const numCols = 20;
 
 /*
-[0] : direction of neighbour relative to target cell 
-[1] : direction or target cell relative to neighbour cell 
+[0] : direction of nb relative to target cell 
+[1] : direction or target cell relative to nb cell 
 [2] : row index from target cell
 [3] : col index from target cell
  */
@@ -26,60 +26,47 @@ const TrackBuilderPage = () => {
   const [cellStates, setCellStates] = useState({});
 
   function handleCellClick(e) {
-    const connections = getConnectedNodes(e.target.id);
+    const cellKey = e.target.id;
+    const [rowIndex, colIndex] = getCellIndex(cellKey);
 
-    setCellStates({
-      ...cellStates,
-      [e.target.id]: {
-        ...cellStates[e.target.id],
-        isTrack: !cellStates[e.target.id]?.isTrack,
-        connections: connections,
-      },
-    });
-    console.log("e.target.id ", e.target.id);
-    console.log("isTrack ", cellStates[e.target.id]?.isTrack);
-    console.log("connections ", connections);
-  }
-
-  function getConnectedNodes(cellKey) {
-    const splitKey = cellKey.split(cellKeyChars.delimiter);
-    const rowIndex = parseInt(splitKey[1]);
-    const colIndex = parseInt(splitKey[2]);
-
-    const cellIsTrack = cellStates[cellKey]?.isTrack ?? false;
+    const cellIsActive = cellStates[cellKey]?.isActive ?? false;
     const cellConnections = {};
 
-    neighbours.forEach((neighbour) => {
-      const [direction, neighboursDirection, rowDiff, colDiff] = neighbour;
-      const neighbourKey = createCellKey(
-        rowIndex + rowDiff,
-        colIndex + colDiff
-      );
-      const neighboursConnections = cellStates[neighbourKey]?.connections ?? {};
-      const neighbourIsTrack = cellStates[neighbourKey]?.isTrack ?? false;
+    neighbours.forEach((nb) => {
+      const [direction, nbDirection, rowDiff, colDiff] = nb;
+      const nbKey = createCellKey(rowIndex + rowDiff, colIndex + colDiff);
+      const nbConnections = cellStates[nbKey]?.connections ?? {};
+      const nbIsActive = cellStates[nbKey]?.isActive ?? false;
 
-      if (cellIsTrack) {
+      if (cellIsActive) {
         // if currently true, we are removing the track, i.e. unset connections
-        neighboursConnections[neighboursDirection] = false;
+        // target cell's connections remain empty
+        nbConnections[nbDirection] = false;
       } else {
         // if currently false, we are adding a track, i.e. set connections
-        if (neighbourIsTrack) {
+        if (nbIsActive) {
           cellConnections[direction] = true;
-          neighboursConnections[neighboursDirection] = true;
+          nbConnections[nbDirection] = true;
         }
       }
 
-      // set neighbour connections
       setCellStates({
         ...cellStates,
-        [neighbourKey]: {
-          ...cellStates[neighbourKey],
-          connections: neighboursConnections,
+        [nbKey]: {
+          ...cellStates[nbKey],
+          connections: nbConnections,
         },
       });
     });
 
-    return cellConnections;
+    setCellStates({
+      ...cellStates,
+      [cellKey]: {
+        ...cellStates[cellKey],
+        isActive: !cellIsActive,
+        connections: cellConnections,
+      },
+    });
   }
 
   return (

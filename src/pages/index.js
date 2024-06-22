@@ -10,6 +10,9 @@ const IndexPage = () => {
         <h1>Hello n00bs</h1>
         <div>
           <p>
+            Let's find a path <Link to={paths.Pathfinder}>here</Link>!
+          </p>
+          <p>
             Let's build some train tracks{" "}
             <Link to={paths.TrackBuilder}>here</Link>!
           </p>

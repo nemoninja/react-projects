@@ -24,6 +24,7 @@ const neighbours = [
 
 const TrackBuilderPage = () => {
   const [cellStates, setCellStates] = useState({});
+  // const [dot, setDot] = useState([0, 0]);
 
   function handleCellClick(e) {
     const cellKey = e.target.id;

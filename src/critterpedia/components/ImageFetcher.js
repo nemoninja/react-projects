@@ -23,6 +23,7 @@ export function ImageFetcher({ folderName, filename, iconEdge }) {
   return (
     <div>
       <img
+        key={filename}
         src={imageSrc.default}
         alt={filename}
         height={iconEdge}

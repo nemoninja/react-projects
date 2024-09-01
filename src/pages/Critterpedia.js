@@ -1,7 +1,7 @@
 import React from "react";
 import { MainBody } from "../components/MainBody";
 import { Calendar } from "../critterpedia/components/Calendar";
-import { FishEntries } from "../critterpedia/components/FishEntries";
+import { FishPage } from "../critterpedia/components/FishPage";
 
 const CritterpediaPage = () => {
   return (
@@ -10,7 +10,7 @@ const CritterpediaPage = () => {
         <h1>nemoninja's Critterpedia</h1>
         <p>A simple wildlife availability checker for ACNH.</p>
         <div>{Calendar()}</div>
-        <div>{FishEntries()}</div>
+        <div>{FishPage()}</div>
       </MainBody>
     </main>
   );

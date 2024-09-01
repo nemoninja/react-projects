@@ -4,19 +4,41 @@ import { ImageFetcher } from "./ImageFetcher";
 import data from "../data/fish.json";
 // import MonthsEnum from "../data/MonthsEnum.js";
 
-const cellEdge = "100px";
+const cellEdge = "80px";
 
-export function FishEntries() {
-  const entries = data.fish;
+export function FishEntries({ location }) {
+  const allEntries = data.fish;
+  const entries = allEntries.filter((entry) =>
+    entry.locations.includes(location)
+  );
+
+  if (entries.length === 0) {
+    return (
+      <div id={`fish-entries-${location}`} key={`fish-entries-${location}`}>
+        No fishes available!
+      </div>
+    );
+  }
+
   const numCols = 10;
   const numRows = entries.length / numCols;
 
   return (
-    <div id="fish-entries" style={{ padding: "20px" }}>
+    <div
+      id={`fish-entries-${location}`}
+      key={`fish-entries-${location}`}
+      style={{
+        paddingTop: "10px",
+        paddingBottom: "20px",
+      }}
+    >
       <div
+        id={`fish-entries-grid-${location}`}
+        key={`fish-entries-grid-${location}`}
         style={{
+          alignItems: "center",
           display: "grid",
-          gridGap: 1,
+          gridGap: 2,
           gridTemplateColumns: `repeat(${numCols}, 1fr)`,
           gridTemplateRows: `repeat(${numRows}, 1fr)`,
           justifyContent: "center",
@@ -26,10 +48,14 @@ export function FishEntries() {
       >
         {entries.map((entry) => {
           return (
-            <div>
+            <div
+              id={`${location}-${entry.name}-cell`}
+              key={`${location}-${entry.name}-cell`}
+            >
               <button
                 onClick={() => {}}
-                id={`${entry.name}_button`}
+                id={`${location}-${entry.name}-button`}
+                key={`${location}-${entry.name}-button`}
                 style={{
                   alignItems: "center",
                   backgroundColor: "None",

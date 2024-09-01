@@ -12,6 +12,8 @@ export function Calendar() {
   return (
     <div id="calendar" style={{ padding: "20px" }}>
       <div
+        id="calendar-grid"
+        key="calendar-grid"
         style={{
           display: "grid",
           gridGap: 1,
@@ -26,6 +28,7 @@ export function Calendar() {
           <button
             onClick={() => {}}
             id={month}
+            key={month}
             style={{
               alignItems: "center",
               justifyContent: "center",

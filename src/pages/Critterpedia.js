@@ -1,7 +1,7 @@
 import React from "react";
 import { MainBody } from "../components/MainBody";
-import { Calendar } from "../critterpedia/components/Calendar.js";
-import { FishEntries } from "../critterpedia/components/FishEntries.js";
+import { Calendar } from "../critterpedia/components/Calendar";
+import { FishEntries } from "../critterpedia/components/FishEntries";
 
 const CritterpediaPage = () => {
   return (

@@ -1,18 +1,15 @@
 import React from "react";
 
-import data from "../data/n_fish.json";
+import { ImageFetcher } from "./ImageFetcher";
+import data from "../data/fish.json";
 // import MonthsEnum from "../data/MonthsEnum.js";
 
 const cellEdge = "100px";
-const iconEdge = "50px";
 
 export function FishEntries() {
-  const entries = data.n_fish;
+  const entries = data.fish;
   const numCols = 10;
   const numRows = entries.length / numCols;
-
-  const images = require.context("../assets/fish", false);
-  const imageList = images.keys().map((image) => images(image));
 
   return (
     <div id="fish-entries" style={{ padding: "20px" }}>
@@ -27,13 +24,12 @@ export function FishEntries() {
           width: cellEdge,
         }}
       >
-        {imageList.map((image, index) => {
-          console.log("image", image);
+        {entries.map((entry) => {
           return (
             <div>
               <button
                 onClick={() => {}}
-                id={index}
+                id={`${entry.name}_button`}
                 style={{
                   alignItems: "center",
                   backgroundColor: "None",
@@ -45,11 +41,10 @@ export function FishEntries() {
                   width: cellEdge,
                 }}
               >
-                <img
-                  alt={`${index}_icon`}
-                  height={iconEdge}
-                  width={iconEdge}
-                  src={image.default}
+                <ImageFetcher
+                  folderName="fish"
+                  filename={entry.image}
+                  iconEdge="50px"
                 />
               </button>
             </div>

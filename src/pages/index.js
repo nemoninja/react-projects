@@ -19,6 +19,9 @@ const IndexPage = () => {
           <p>
             Let's stop some watches <Link to={paths.Stopwatch}>here</Link>!
           </p>
+          <p>
+            Let's find some critters <Link to={paths.Critterpedia}>here</Link>!
+          </p>
         </div>
       </MainBody>
     </main>

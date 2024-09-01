@@ -1,0 +1,22 @@
+{
+  "n_fish": [
+    {
+      "name": "Pale chub",
+      "image": "pale_chub.webp",
+      "price": 200,
+      "location": "River",
+      "size": "Tiny",
+      "month": [6],
+      "time": [9, 10]
+    },
+    {
+      "name": "Crucian carp",
+      "image": "crucian_carp.webp",
+      "price": 160,
+      "location": "River",
+      "size": "Small",
+      "month": [6],
+      "time": [8, 9, 10]
+    }
+  ]
+}
